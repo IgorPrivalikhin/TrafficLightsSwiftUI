@@ -15,8 +15,8 @@ struct ContentView: View {
     @State var yellow = 0.2
     @State var green = 0.2
     
-    var lightOn: Double = 1
-    var lightOff = 0.2
+    let lightOn = 1.0
+    let lightOff = 0.2
     
     private enum CurrentLight {
         case red, yellow, green
@@ -39,7 +39,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Button(action: { if CurrentValueLabel == "START" { CurrentValueLabel = "NEXT" }
-
+                    
                     switch currentLight {
                     case .red:
                         red = lightOn
@@ -54,7 +54,6 @@ struct ContentView: View {
                         yellow = lightOff
                         currentLight = .red
                     }
-                    
                 }) {
                     Text(CurrentValueLabel)
                         .font(.title)
@@ -64,13 +63,13 @@ struct ContentView: View {
             }
             .padding()
         }
-        }
-    
-    
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
-}
+    
+    
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
+    }
 }

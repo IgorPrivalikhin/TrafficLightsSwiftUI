@@ -13,8 +13,9 @@ struct CircleColorView: View {
     var body: some View {
         Circle()
             .foregroundColor(color)
-            .frame(width: 110, height: 110, alignment: .center)
-            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+            .frame(width: 140, height: 140, alignment: .center)
+            .overlay(Circle().stroke(Color.white, lineWidth: 5))
+            .padding()
     }
 }
 
