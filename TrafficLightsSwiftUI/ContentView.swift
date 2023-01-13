@@ -3,73 +3,65 @@
 //  TrafficLightsSwiftUI
 //
 //  Created by Анастасия Булдакова on 10.01.2023.
-//
+
 
 import SwiftUI
 
+enum CurrentLight {
+    case off, red, yellow, green
+}
+
 struct ContentView: View {
     
-    @State private var CurrentValueLabel = "START"
-    
-    @State var red = 0.2
-    @State var yellow = 0.2
-    @State var green = 0.2
-    
-    let lightOn = 1.0
-    let lightOff = 0.2
-    
-    private enum CurrentLight {
-        case red, yellow, green
-    }
-    
-    @State private var currentLight = CurrentLight.red
+    @State private var buttonTitle = "START"
+    @State private var currentLight = CurrentLight.off
     
     var body: some View {
         ZStack {
             Color(.black)
                 .ignoresSafeArea()
             
-            VStack {
-                CircleColorView(color: .red)
-                    .opacity(red)
-                CircleColorView(color: .yellow)
-                    .opacity(yellow)
-                CircleColorView(color: .green)
-                    .opacity(green)
+            VStack(spacing: 20) {
+                ColorCircleView(
+                    color: .red,
+                    opacity: currentLight == .red ? 1 : 0.3
+                )
+                ColorCircleView(
+                    color: .yellow,
+                    opacity: currentLight == .yellow ? 1 : 0.3
+                )
+                ColorCircleView(
+                    color: .green,
+                    opacity: currentLight == .green ? 1 : 0.3
+                )
+                
                 Spacer()
                 
-                Button(action: { if CurrentValueLabel == "START" { CurrentValueLabel = "NEXT" }
-                    
-                    switch currentLight {
-                    case .red:
-                        red = lightOn
-                        green = lightOff
-                        currentLight = .yellow
-                    case .yellow:
-                        red = lightOff
-                        yellow = lightOn
-                        currentLight = .green
-                    case .green:
-                        green = lightOn
-                        yellow = lightOff
-                        currentLight = .red
+                StartButtonView(title: buttonTitle) {
+                    if buttonTitle == "START" {
+                        buttonTitle = "NEXT"
                     }
-                }) {
-                    Text(CurrentValueLabel)
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .bold()
+                    nextColor()
                 }
             }
             .padding()
         }
     }
-    
-    
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
+}
+
+extension ContentView {
+    private func nextColor() {
+        switch currentLight {
+        case .off: currentLight = .red
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
